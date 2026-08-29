@@ -1,0 +1,74 @@
+# Aldwin Benidict Montilla
+# FA2 Code for option 3
+
+# number of times the die will be rolled
+n <- 600
+
+
+# simulate rolling a fair six-sided die "n" times
+rolls <- sample(1:6, size = n, replace = TRUE)
+ 
+ 
+# view the first few rolls to check if it worked 
+head(rolls)
+========================
+[1] 5 5 6 4 4 3
+========================
+
+
+# count how many times each number (1-6) appeared
+counts <- table(rolls)
+counts
+============================
+rolls
+  1   2   3   4   5   6 
+101  95  97 101 104 102 
+============================
+
+
+# calculate the relative frequency of each outcome
+relative_freq <- counts / n
+
+
+# put it in a table
+results_table <- data.frame(
+   Outcome = 1:6,
+   Frequency = as.vector(counts),
+   Relative_Frequency = as.vector(relative_freq),
+   Estimated_Probability = as.vector(relative_freq)
+ )
+results_table
+============================================================
+  Outcome Frequency Relative_Frequency Estimated_Probability
+1       1       101          0.1683333             0.1683333
+2       2        95          0.1583333             0.1583333
+3       3        97          0.1616667             0.1616667
+4       4       101          0.1683333             0.1683333
+5       5       104          0.1733333             0.1733333
+6       6       102          0.1700000             0.1700000
+============================================================
+
+
+# visualize the relative frequencies with a bar plot
+barplot(relative_freq,
+         col = "skyblue",
+         xlab = "Outcome (Die Face)",
+         ylab = "Relative Frequency",
+         main = "Relative Frequency of Each Outcome (600 Rolls)",
+         ylim = c(0, 0.3))
+===================================
+ # The result will be in other file
+ ==================================
+
+
+# visualize the frequencies of the experiment with a bar plot
+barplot(counts,
+         col = "skyblue",
+         border = "black",
+         xlab = "Outcome (Die Face)",
+         ylab = "Frequency",
+         main = "Frequency of Each Outcome (600 Die Rolls)",
+         ylim = c(0, max(counts) + 20))
+===================================
+ # The result will be in other file
+ ==================================
