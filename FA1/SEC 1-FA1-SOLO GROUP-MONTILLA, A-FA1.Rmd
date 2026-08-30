@@ -1,0 +1,169 @@
+---
+title: "FA1"
+author: "Montilla, Aldwin Benidict"
+date: "`r Sys.Date()`"
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+**GitHub link**: https://github.com/aldwinmontilla661-dot/Aldwin-Benidict-Montilla/tree/main/FA1
+
+## Accessing the file
+```{r access-file}
+# Read the CSV file into a data frame
+# Store it to "results_data"
+results_data <- read.csv("results.csv")
+
+
+# Display the first few rows
+# This let us view a glimpse of the data
+head(results_data)
+```
+
+# 1. Skewness Analysis of Examination Results
+
+## Application of the skewness program
+
+Write the skewness program code.
+```{r creating-skewness-program}
+# Custom function to calculate exact sample skewness
+calc_skewness <- function(x) {
+  x <- na.omit(x) # Remove missing values (NA)
+  n <- length(x)
+  
+  mean_x <- mean(x)
+  s <- sd(x)
+  
+  # Calculate exact sample skewness coefficient
+  skew <- (n / ((n - 1) * (n - 2))) * sum(((x - mean_x) / s)^3)
+  return(skew)
+}
+```
+
+
+Then, apply it to calculate the skewness coefficient of the four subjects: "arch1", "prog1", "arch2", adn "prog2".
+```{r applying_skewness_program_to_subjects}
+# Apply skewness function across the 4 subject columns
+subjects <- c("arch1", "prog1", "arch2", "prog2")
+exact_skewness <- sapply(results_data[subjects], calc_skewness)
+
+# Print it
+exact_skewness
+```
+The results, **arch1 (-0.5136918)**, **prog1 (-0.3488262)**, and **prog2 (-0.2845596)** have a negative skewness. It shows that the distributions are left-skewed; creating a long tail towards the left side of the grading spectrum. It implies that most students scored relatively high and a small group of students received low scores, 
+
+One of the results, **arch2 (0.4684344)**, yields a positive skewness. Indicating that it is right-skewed, with mean higher than the median. It shows that most of the students had a hard time in the exam, receiving lower scores, on average; with a small group of students falling on the higher-score side of the distribution. 
+
+
+
+## Application of Pearson's approximate skewness
+
+Write the approximate skewness program
+```{r Pearson-approximate-skewness}
+# Custom function to calculate Pearson's approximate skewness
+
+calc_pearson_skewness <- function(x) { 
+  x <- na.omit(x) # Remove missing values (NA)
+  mean_x <- mean(x) 
+  median_x <- median(x) 
+  s <- sd(x)
+
+  #Using the formula of Pearson's approximate skewness
+pearson_skew <- 3 * (mean_x - median_x) / s 
+
+return(pearson_skew) 
+}
+```
+
+
+Then, apply it to the data in results.csv
+```{r applying_Pearson_approximate_skewness}
+# Apply Pearson's approximation across the 4 subject columns
+
+pearson_skewness <- sapply(results_data[subjects],
+calc_pearson_skewness)
+
+pearson_skewness
+```
+Pearson's approximation formula for calculating the skewness coefficient of the four examination subjects serves a reasonable directional approximation. It correctly identifies the trend and sign whether it be a positive or a negative skewness for every subject.
+
+As a quantitative approximation, however, it is imprecise. You can observe it in the table below that Pearson's approximation formula overestimates the magnitude of skewness. It has its advantage for a quick calculations or approximations, but the exact skewness program should be used for formal statistical analysis.
+
+
+### Comparing the result of Exact Skewness Calculator and Pearson's Approximate Formula
+```{r Combining-result}
+# Combine results into a summary comparison table
+
+comparison_table <- data.frame( Subject = subjects, Exact_Skewness =
+round(exact_skewness, 4), Pearson_Skewness = round(pearson_skewness, 4),
+Difference = round(abs(exact_skewness - pearson_skewness), 4) )
+
+comparison_table
+```
+
+
+
+
+
+
+
+
+
+
+# 2. Graphical Analysis of Examination Results by Gender
+
+
+Get the data for the class of 50 students from Exercise 1.1
+```{r task-2-analysis}
+females <- c(57, 59, 78, 79, 60, 65, 68, 71, 75, 48, 51, 55, 56, 41, 43, 44, 75, 78, 80, 81, 83, 83, 85)
+males   <- c(48, 49, 49, 30, 30, 31, 32, 35, 37, 41, 86, 42, 51, 53, 56, 42, 44, 50, 51, 65, 67, 51, 56, 58, 64, 64, 75)
+```
+
+
+## Task (a): Stem-and-Leaf Displays
+```{r Stem-and-Leaf-display}
+#--- Stem-and-Leaf: Females ---
+stem(females)
+
+#--- Stem-and-Leaf: Males ---
+stem(males)
+```
+The advantages of a stem-and-leaf display range from preserving the exact data to being beneficial for small samples. 
+
+In terms of reservation of raw data: unlike a histogram, that only shows you the visualization of items that can fit into a bin or bar and has a likelihood of losing the original values, a stem-and-leaf plot retains every single original value in the data set.
+
+The stem-and-leaf display allows you to effortlessly observe and find the median and mode directly from the list. Additionally, scores are displayed in sorted order, making it easy to identify the minimum and maximum visually.
+
+The stem-and-leaf displays are ideal for Small Samples. Given that histograms can be sensitive to bin width dimensions, whereas stem-and-leaf plots show the shape of the distribution instantly.
+
+
+
+## Task (b): Disuss the findings from box-plot
+```{r box-plot}
+boxplot(females, males,
+        names = c("Females (n=23)", "Males (n=27)"),
+        main = "Java Programming Exam Scores by Gender",
+        ylab = "Examination Score",
+        col = c("lightblue", "lightgreen"))
+```
+
+
+## Summary Statistics Breakdown
+
+- Females (n = 23): 
+    - Median score = 68.0 
+    - Interquartile Range (IQR) = 23.0 (Q1 = 55.5, Q3 = 78.5)
+    
+- Males (n = 27):
+    - Median score = 50.0 
+    - Interquartile Range = 15.5 (Q1 = 41.5, Q3 = 57.0)
+
+
+In terms of central tendency, the female students put up a better showing than their male counterparts. The median for females was 68 to the males’ 50, an 18-point difference.
+
+There is also a distinction in spread and variability. While the female scores have a broader overall distribution in the upper ranges, (IQR of 23), the men’s results are more tightly packed within the 3 to 60 mark range, giving them a narrower middle 50%, (IQR = 15.5). As for outliers, none were found among the females; the male side of things does have one high outlier at 84, which appears as a solitary point beyond the top of the whisker.
