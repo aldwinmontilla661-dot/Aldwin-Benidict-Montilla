@@ -46,7 +46,7 @@ calc_skewness <- function(x) {
 ```
 
 
-Then, apply it to calculate the skewness coefficient of the four subjects: "arch1", "prog1", "arch2", adn "prog2".
+Then, apply it to calculate the skewness coefficient of the four subjects: "arch1", "prog1", "arch2", and "prog2".
 ```{r applying_skewness_program_to_subjects}
 # Apply skewness function across the 4 subject columns
 subjects <- c("arch1", "prog1", "arch2", "prog2")
@@ -63,7 +63,7 @@ One of the results, **arch2 (0.4684344)**, yields a positive skewness. Indicatin
 
 ## Application of Pearson's approximate skewness
 
-Write the approximate skewness program
+Write the approximate skewness program.
 ```{r Pearson-approximate-skewness}
 # Custom function to calculate Pearson's approximate skewness
 
@@ -81,7 +81,7 @@ return(pearson_skew)
 ```
 
 
-Then, apply it to the data in results.csv
+Then, apply it to the data in results.csv.
 ```{r applying_Pearson_approximate_skewness}
 # Apply Pearson's approximation across the 4 subject columns
 
@@ -118,7 +118,7 @@ comparison_table
 # 2. Graphical Analysis of Examination Results by Gender
 
 
-Get the data for the class of 50 students from Exercise 1.1
+Get the data for the class of 50 students from Exercise 1.1.
 ```{r task-2-analysis}
 females <- c(57, 59, 78, 79, 60, 65, 68, 71, 75, 48, 51, 55, 56, 41, 43, 44, 75, 78, 80, 81, 83, 83, 85)
 males   <- c(48, 49, 49, 30, 30, 31, 32, 35, 37, 41, 86, 42, 51, 53, 56, 42, 44, 50, 51, 65, 67, 51, 56, 58, 64, 64, 75)
