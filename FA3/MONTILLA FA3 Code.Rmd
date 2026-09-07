@@ -2,23 +2,27 @@
 title: "FA3"
 author: "Aldwin Benidict Montilla"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+**GitHub link**: <https://github.com/aldwinmontilla661-dot/Aldwin-Benidict-Montilla/tree/main/FA3>
+
 ## Question 5: Sensor Relevance Analysis
 
 A geospatial analysis system has four sensors supplying images. The percentage of images supplied by each sensor and the percentage of images relevant to a query are shown in the following table.
 
 | Sensor | Percentage of Images Supplied | Percentage of Relevant Images |
-|:------:|:----------------------------:|:-----------------------------:|
-|   1    |              15              |              50               |
-|   2    |              20              |              60               |
-|   3    |              25              |              80               |
-|   4    |              40              |              85               |
+|:------:|:-----------------------------:|:-----------------------------:|
+|   1    |              15               |              50               |
+|   2    |              20               |              60               |
+|   3    |              25               |              80               |
+|   4    |              40               |              85               |
 
 What is the overall percentage of relevant images?
 
@@ -54,26 +58,24 @@ print(paste0("The overall percentage of relevant images is: ", overall_pct_relev
 ```
 
 ### Interpretation
+
 The total percentage of relevant images across the entire network of four sensors evaluates to **`r overall_pct_relevant` %**.
-
-
 
 ## Question 6: Probability Independence Verification
 
-A fair coin is tossed twice. Let the sample space be $S = \{HH, HT, TH, TT\}$, where each outcome is equally likely. Consider the following three events:
+A fair coin is tossed twice. Let the sample space be $S = \\{HH, HT, TH, TT\\}$, where each outcome is equally likely. Consider the following three events:
 
-*   **$E_1$**: The outcomes of the two tosses match ($HH$ or $TT$).
-*   **$E_2$**: The first toss results in Heads ($HH$ or $HT$).
-*   **$E_3$**: The second toss results in Heads ($TH$ or $HH$).
+- $E_1$: The outcomes of the two tosses match ($HH$ or $TT$).
+- $E_2$: The first toss results in Heads ($HH$ or $HT$).
+- $E_3$: The second toss results in Heads ($TH$ or $HH$).
 
-Show whether these three events are **pairwise independent** and whether they are **mutually independent**.
-
+Show whether these three events are **pairwise independent** but not **mutually independent**.
 
 ```{r independence_check}
 # Define the complete sample space (S)
 S <- c("HH", "HT", "TH", "TT")
 
-# Define the each events (E)
+# Define each event (E)
 E1 <- c("HH", "TT")
 E2 <- c("HH", "HT")
 E3 <- c("TH", "HH")
@@ -91,9 +93,9 @@ p_E2 <- get_prob(E2)
 p_E3 <- get_prob(E3)
 
 # Print individual probabilities clearly
-print(paste("Probability of E1:", p_E1))
-print(paste("Probability of E2:", p_E2))
-print(paste("Probability of E3:", p_E3))
+cat(paste("Probability of E1:", p_E1,  
+          "\n", "Probability of E2:", p_E2,  
+          "\n", "Probability of E3:", p_E3))
 ```
 
 ```{r pair_I}
@@ -102,24 +104,20 @@ int_1_2 <- intersect(E1, E2)
 int_1_3 <- intersect(E1, E3)
 int_2_3 <- intersect(E2, E3)
 
-print(paste("Intersection of E1 and E2:", int_1_2))
-print(paste("Intersection of E1 and E3:", int_1_3))
-print(paste("Intersection of E2 and E3:", int_2_3))
-
+cat(paste("Intersection of E1 and E2:", int_1_2,
+          "\n", "Intersection of E1 and E3:", int_1_3,
+          "\n", "Intersection of E2 and E3:", int_2_3))
 ```
 
 ```{r pairwise_I}
-
 # Check if P(A and B) == P(A) * P(B)
 p_int_1_2 <- get_prob(int_1_2) == (p_E1 * p_E2)
 p_int_1_3 <- get_prob(int_1_3) == (p_E1 * p_E3)
 p_int_2_3 <- get_prob(int_2_3) == (p_E2 * p_E3)
 
-
-print(paste("Pair 1 & 2:", get_prob(int_1_2), "==", (p_E1 * p_E2)))
-print(paste("Pair 1 & 3:", get_prob(int_1_3), "==", (p_E1 * p_E3)))
-print(paste("Pair 2 & 3:", get_prob(int_2_3), "==", (p_E2 * p_E3)))
-
+cat(paste("Pair 1 & 2:", get_prob(int_1_2), "==", (p_E1 * p_E2),
+          "\n", "Pair 1 & 3:", get_prob(int_1_3), "==", (p_E1 * p_E3),
+          "\n", "Pair 2 & 3:", get_prob(int_2_3), "==", (p_E2 * p_E3)))
 ```
 
 ```{r mutual_I}
@@ -129,17 +127,16 @@ p_int_all <- get_prob(int_all)
 p_product_all <- p_E1 * p_E2 * p_E3
 is_mutually_independent <- p_int_all == p_product_all
 
-
 # Print results
-print(paste("E1 & E2 independent?:", p_int_1_2))
-print(paste("E1 & E3 independent?:", p_int_1_3))
-print(paste("E2 & E3 independent?:", p_int_2_3))
-print(paste("Mutually independent?:", is_mutually_independent))
+cat(paste("E1 & E2 independent?:", p_int_1_2,
+          "\n", "E1 & E3 independent?:", p_int_1_3,
+          "\n", "E2 & E3 independent?:", p_int_2_3,
+          "\n", "Mutually independent?:", is_mutually_independent))
 ```
 
 ### Conclusion
 
-The simulation and mathematical analysis demonstrate that events $E_1$, $E_2$, and $E_3$ are **pairwise independent but not mutually independent**. 
+The simulation and mathematical analysis demonstrate that events $E_1$, $E_2$, and $E_3$ are **pairwise independent but not mutually independent**.
 
 When tested two at a time, knowing the outcome of one event leaves the probability of the other event completely unchanged at $50\%$. This satisfies the pairwise multiplication rule where $P(A \cap B) = P(A) \times P(B) = 0.25$.
 
